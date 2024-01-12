@@ -44,6 +44,7 @@ export const DGNBChart = (props: DGNBChartProps) => {
           dy='.33em'
           fontSize={`var(--mantine-font-size${isMobile ? '' : '-xl'})`}
           fontWeight={theme.headings.fontWeight}
+          fontFamily={theme.fontFamily}
           textAnchor='middle'
           pointerEvents='none'
         >
@@ -72,6 +73,7 @@ const TextAndScore = ([xCoordinate, yCoordinate]: [number, number], arc: PieArcD
       y={yCoordinate}
       dy='.33em'
       fontSize={`var(--mantine-font-size-${isMobile ? 'xs' : 'md'})`}
+      fontFamily={theme.fontFamily}
       textAnchor='middle'
       pointerEvents='none'
     >
