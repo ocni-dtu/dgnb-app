@@ -10,6 +10,7 @@ export const DownloadSVG = () => {
     a.download = 'dgnb.svg'
     a.href = 'data:text/html;base64,' + base64doc
     a.dispatchEvent(e)
+    window.umami.track('Download SVG Button')
   }
 
   return (
