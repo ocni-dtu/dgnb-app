@@ -1,0 +1,53 @@
+{
+  "name": "dgnb-app",
+  "private": false,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 8000 --host",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "format:fix": "prettier --write src/",
+    "format": "prettier --check src/",
+    "lint": "eslint src --ext ts,tsx ",
+    "lint:fix": "eslint --fix src/**/*.{tsx,ts}",
+    "tsc": "tsc --noEmit",
+    "check": "npm run format && npm run lint && npm run tsc",
+    "fix": "npm run format:fix && npm run lint:fix"
+  },
+  "dependencies": {
+    "@fontsource/rubik": "^5.0.18",
+    "@mantine/core": "^7.3.2",
+    "@mantine/hooks": "^7.3.2",
+    "@tabler/icons-react": "^2.44.0",
+    "@visx/gradient": "^3.3.0",
+    "@visx/group": "^3.3.0",
+    "@visx/scale": "^3.5.0",
+    "@visx/shape": "^3.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "vite-plugin-svgr": "^4.2.0",
+    "vite-tsconfig-paths": "^4.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-prettier": "^5.1.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.32",
+    "postcss-preset-mantine": "^1.12.2",
+    "postcss-simple-vars": "^7.0.1",
+    "prettier": "^3.1.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  }
+}
