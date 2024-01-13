@@ -1,8 +1,9 @@
 import Pie, { PieArcDatum } from '@visx/shape/lib/shapes/Pie'
 import { Group } from '@visx/group'
-import { calculateDGNBTotal, DGNBScore } from '../DGNBScoreTable'
+import { calculateDGNBTotal } from '../DGNBScoreTable'
 import { useMantineTheme } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
+import { DGNBScore } from '@context'
 
 interface DGNBChartProps {
   width?: number

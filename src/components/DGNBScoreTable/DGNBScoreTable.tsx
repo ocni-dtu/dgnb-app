@@ -1,13 +1,7 @@
 import { Grid, NumberInput, TextInput } from '@mantine/core'
 import { Dispatch, SetStateAction } from 'react'
 import { calculateDGNBTotal } from './calculations.ts'
-
-export interface DGNBScore {
-  label: string
-  value: number
-  weight: number
-  color: string
-}
+import { DGNBScore } from '@context'
 
 interface DGNBScoreTableProps {
   scores: DGNBScore[]
