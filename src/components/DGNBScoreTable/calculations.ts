@@ -1,4 +1,4 @@
-import { DGNBScore } from '@components'
+import { DGNBScore } from '@context'
 
 export const calculateDGNBTotal = (scores: DGNBScore[]) => {
   return scores.reduce((total, score) => calculateWeightedScore(score) + total, 0).toFixed(2)
