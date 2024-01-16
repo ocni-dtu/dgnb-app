@@ -21,7 +21,7 @@ export const theme = createTheme({
     xl: '88em',
     xxl: '120em',
   },
-  black: '#2e2e2eff',
+  black: '#2e2e2e',
   colors: {
     light: [
       '#fbf3f5',
@@ -33,7 +33,7 @@ export const theme = createTheme({
       '#848484',
       '#717171',
       '#656565',
-      '#5c5557',
+      '#2e2e2e',
     ],
   },
 })
