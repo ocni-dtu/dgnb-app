@@ -1,26 +1,45 @@
-import { DGNBChart, DGNBScoreTable, DownloadSVG } from '@components'
-import { Container } from '@mantine/core'
+import { DGNBChart, DGNBScoreTable, DownloadSVG, SubScoreTable } from '@components'
+import { Container, Group, Switch, useMantineTheme } from '@mantine/core'
 import { useViewportSize } from '@mantine/hooks'
-import { useScoresContext } from '@context'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 export const LandingPage = () => {
   const { height, width } = useViewportSize()
-  const { scores, setScores } = useScoresContext()
+
+  const [showSubScores, setShowSubScores] = useState<boolean>(false)
 
   const size = Math.min(height, width) * 0.8
   return (
     <Container>
-      <DGNBChart scores={scores} width={size} height={size} />
-      <ButtonGroup />
-      <DGNBScoreTable scores={scores} setScores={setScores} />
+      <DGNBChart width={size} height={size} showSubScores={showSubScores} />
+      <ButtonGroup showSubScores={showSubScores} setShowSubScores={setShowSubScores} />
+      {showSubScores ? <SubScoreTable /> : <DGNBScoreTable />}
     </Container>
   )
 }
 
-const ButtonGroup = () => {
+interface ButtonGroupProps {
+  showSubScores: boolean
+  setShowSubScores: Dispatch<SetStateAction<boolean>>
+}
+
+const ButtonGroup = ({ showSubScores, setShowSubScores }: ButtonGroupProps) => {
+  const theme = useMantineTheme()
+
   return (
-    <Container px={0}>
+    <Group px={0} justify='flex-end'>
+      <Switch
+        color={theme.colors.light[9]}
+        size='lg'
+        checked={showSubScores}
+        label='Subscores'
+        labelPosition='left'
+        onLabel='Show'
+        offLabel='Hide'
+        onChange={(event) => setShowSubScores(event.currentTarget.checked)}
+        visibleFrom={'sm'}
+      />
       <DownloadSVG />
-    </Container>
+    </Group>
   )
 }

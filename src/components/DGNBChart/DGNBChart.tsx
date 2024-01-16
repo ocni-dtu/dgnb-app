@@ -1,18 +1,20 @@
-import Pie, { PieArcDatum } from '@visx/shape/lib/shapes/Pie'
+import Pie from '@visx/shape/lib/shapes/Pie'
 import { Group } from '@visx/group'
-import { calculateDGNBTotal } from '../DGNBScoreTable'
 import { useMantineTheme } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { DGNBScore } from '@context'
+import { useScoresContext } from '@context'
+import { InnerTextAndScore, OuterTextAndScore } from './textComponents.tsx'
+import { calculateInnerDonutThickness, calculateOuterDonutThickness } from './utils.ts'
 
 interface DGNBChartProps {
   width?: number
   height?: number
-  scores: DGNBScore[]
+  showSubScores: boolean
 }
 
 export const DGNBChart = (props: DGNBChartProps) => {
-  const { width = 500, height = 500, scores } = props
+  const { width = 500, height = 500, showSubScores } = props
+  const { scores, totalScore } = useScoresContext()
   const theme = useMantineTheme()
   const isMobile = useMediaQuery(`(max-width: 48em)`)
 
@@ -35,11 +37,37 @@ export const DGNBChart = (props: DGNBChartProps) => {
           pieValue={(score) => score.weight}
           fill={(score) => score.data.color}
           outerRadius={radius}
-          innerRadius={(score) => calculateDonutThickness(score.data, radius, donutThickness)}
+          innerRadius={(score) => calculateOuterDonutThickness(score.data, radius, donutThickness, showSubScores)}
           cornerRadius={5}
           padAngle={0.005}
-          centroid={TextAndScore}
-        ></Pie>
+          pieSort={null}
+          pieSortValues={null}
+          centroid={(xyCoords, arc) => (
+            <OuterTextAndScore coordinates={xyCoords} arc={arc} showSubScores={showSubScores} />
+          )}
+        />
+        {showSubScores ? (
+          <Pie
+            data={scores
+              .map((score) =>
+                score.subScores.map((subScore) => ({
+                  ...subScore,
+                  color: score.color,
+                  pieValue: score.weight / score.subScores.length,
+                })),
+              )
+              .flat()}
+            pieValue={(score) => score.pieValue - 0.075}
+            fill={(score) => score.data.color}
+            outerRadius={radius - donutThickness - 1.5}
+            innerRadius={(score) => calculateInnerDonutThickness(score.data, radius, donutThickness)}
+            cornerRadius={5}
+            padAngle={0.005}
+            centroid={InnerTextAndScore}
+            pieSort={null}
+            pieSortValues={null}
+          />
+        ) : null}
         <text
           fill={theme.black}
           dy='.33em'
@@ -51,37 +79,10 @@ export const DGNBChart = (props: DGNBChartProps) => {
         >
           <tspan>Total Score</tspan>
           <tspan x='0' dy='1.2em'>
-            {calculateDGNBTotal(scores)}
+            {totalScore}
           </tspan>
         </text>
       </Group>
     </svg>
-  )
-}
-
-const calculateDonutThickness = (score: DGNBScore, radius: number, thickness: number) => {
-  return radius - (radius - thickness) * score.value * 0.01
-}
-
-const TextAndScore = ([xCoordinate, yCoordinate]: [number, number], arc: PieArcDatum<DGNBScore>) => {
-  const theme = useMantineTheme()
-  const isMobile = useMediaQuery(`(max-width: 48em)`)
-
-  return (
-    <text
-      fill={isMobile ? theme.black : theme.colors.light[1]}
-      x={xCoordinate}
-      y={yCoordinate}
-      dy='.33em'
-      fontSize={`var(--mantine-font-size-${isMobile ? 'xs' : 'md'})`}
-      fontFamily={theme.fontFamily}
-      textAnchor='middle'
-      pointerEvents='none'
-    >
-      <tspan>{arc.data.label}</tspan>
-      <tspan x={xCoordinate} dy='1.2em'>
-        {arc.data.value}%
-      </tspan>
-    </text>
   )
 }
